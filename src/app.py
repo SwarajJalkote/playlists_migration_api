@@ -3,8 +3,10 @@ from __future__ import annotations
 from urllib.parse import urlparse
 
 import requests
+
 from fastapi import FastAPI
-from fastapi import status
+from fastapi import status, Request
+from fastapi.responses import RedirectResponse
 from fastapi.security import OAuth2PasswordBearer
 from utils import RequestData
 from utils import SpotifyPlaylistModel
@@ -16,9 +18,9 @@ ytmusic = YTMusic('oauth.json')
 
 
 @app.get('/')
-def read_root():
-    return {'Hello': 'World'}
-
+def route_to_docs(request: Request):
+    '''Redirect the url to docs'''
+    return RedirectResponse(str(request.url) + "docs")
 
 @app.get('/spotify_playlist/{playlist_url}')
 def get_spotify_playlist_data(playlist_url: str):
